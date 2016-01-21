@@ -84,17 +84,17 @@
 				<option value="0">PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAY_FORMAT_FULL</option>
 				<option value="1">PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAY_FORMAT_ABBREVIATION</option>
 			</field>
-			<field name="remove_leading_zero" type="radio" default="0" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_REMOVE_LEADING_ZERO" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_REMOVE_LEADING_ZERO_DESC" class="btn-group group-fcinfo">
+			<field name="remove_leading_zero" type="radio" default="0" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_REMOVE_LEADING_ZERO" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_REMOVE_LEADING_ZERO_DESC" class="btn-group btn-group-yesno">
 				<option value="0">FLEXI_NO</option>
 				<option value="1">FLEXI_YES</option>
 			</field>
-			<field name="days_hours_separator" type="text" default=": " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_HOURS_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_HOURS_SEPARATOR_DESC" />
-			<field name="days_list_separator" type="text" default=", " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_LIST_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_LIST_SEPARATOR_DESC" />
-			<field name="days_range_separator" type="text" default=" - " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_RANGE_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_RANGE_SEPARATOR_DESC" />
-			<field name="hours_list_separator" type="text" default=", " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_LIST_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_LIST_SEPARATOR_DESC" />
-			<field name="hours_range_separator" type="text" default=" - " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_RANGE_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_RANGE_SEPARATOR_DESC" />
-			<field name="hours_minutes_separator" type="text" default=":" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_MINUTES_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_MINUTES_SEPARATOR_DESC" />
-			<field name="ampm_separator" type="text" default="" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_AMPM_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_AMPM_SEPARATOR_DESC" />
+			<field name="days_hours_separator" type="text" default=": " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_HOURS_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_HOURS_SEPARATOR_DESC" filter="raw" />
+			<field name="days_list_separator" type="text" default=", " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_LIST_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_LIST_SEPARATOR_DESC" filter="raw" />
+			<field name="days_range_separator" type="text" default=" - " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_RANGE_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_DAYS_RANGE_SEPARATOR_DESC" filter="raw" />
+			<field name="hours_list_separator" type="text" default=", " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_LIST_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_LIST_SEPARATOR_DESC" filter="raw" />
+			<field name="hours_range_separator" type="text" default=" - " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_RANGE_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_RANGE_SEPARATOR_DESC" filter="raw" />
+			<field name="hours_minutes_separator" type="text" default=":" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_MINUTES_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_MINUTES_SEPARATOR_DESC" filter="raw" />
+			<field name="ampm_separator" type="text" default="" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_AMPM_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_AMPM_SEPARATOR_DESC" filter="raw" />
 
 
 			
