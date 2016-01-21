@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="1.6" type="plugin" group="flexicontent_fields" method="upgrade">
 	<name>FLEXIcontent - Business Hours</name>
-	<author>Lyquix, ggppdk</author>
+	<author>Lyquix</author>
 	<creationDate>January 2016</creationDate>
 	<copyright>Copyright (C) 2016 Lyquix</copyright>
 	<license>GNU/GPL v2</license>
 	<authorEmail>info@lyquix.com</authorEmail>
 	<authorUrl>http://www.lyquix.com</authorUrl>
-	<version>1.0</version>
+	<version>1.0.0</version>
 	<description>PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS</description>
 	<files>
 		<filename plugin="businesshours">businesshours.php</filename>
@@ -26,6 +26,23 @@
 				<option value="1">FLEXI_YES</option>
 			</field>
 
+			<field name="" type="separator" default="FLEXI_FIELD_NUMBER_OF_VALUES" description="" depend_class="fieldgroupoff" level="level2" />
+			<!--<field name="allow_multiple" type="multilist" subtype="radio" default="1" label="FLEXI_FIELD_ALLOW_MULTIPLE" description="FLEXI_FIELD_ALLOW_MULTIPLE_DESC" toggle_related="1" depend_class="fieldgroupoff" class="btn-group btn-group-yesno">
+				<option value="0" show_list="" hide_list="multivalue-mode">FLEXI_NO</option>
+				<option value="1" show_list="multivalue-mode" hide_list="">FLEXI_YES</option>
+			</field>
+			<field name="add_position" type="multilist" subtype="radio" default="0" label="FLEXI_FIELD_ADD_POSITION" description="FLEXI_FIELD_ADD_POSITION_DESC" depend_class="fieldgroupoff multivalue-mode" class="btn-group group-fcinfo">
+				<option value="0">FLEXI_FIELD_APPEND_BTN</option>
+				<option value="1">FLEXI_FIELD_INLINE_APPEND_BTN</option>
+				<option value="2">FLEXI_FIELD_INLINE_PREPEND_BTN</option>
+				<option value="3">FLEXI_FIELD_INLINE_BOTH_BTN</option>
+			</field>-->
+			<field name="max_values" type="text" default="0" size="2" label="FLEXI_FIELD_MAX_VALUES" description="FLEXI_FIELD_MAX_VALUES_DESC" depend_class="fieldgroupoff multivalue-mode" />
+			<!--<field name="required" type="radio" default="0" label="FLEXI_FIELD_REQUIRED" description="FLEXI_FIELD_REQUIRED_DESC" class="btn-group btn-group-yesno">
+				<option value="0">FLEXI_NO</option>
+				<option value="1">FLEXI_YES</option>
+			</field>-->
+			
 			<field name="" type="separator" default="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_EDITING_OPTIONS" level="level1" />
 			<field name="weekday_start" type="radio" default="0" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_WEEKDAY_START" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_WEEKDAY_START_DESC" class="btn-group group-fcinfo">
 				<option value="0">PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_WEEKDAY_START_MONDAY</option>
@@ -38,10 +55,6 @@
 				<option value="20">20</option>
 				<option value="30">30</option>
 				<option value="60">60</option>
-			</field>
-			<field name="show_freetext" type="radio" default="1" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_SHOW_FREETEXT" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_SHOW_FREETEXT_DESC" class="btn-group btn-group-yesno">
-				<option value="0">FLEXI_NO</option>
-				<option value="1">FLEXI_YES</option>
 			</field>
 			
 		</fieldset>

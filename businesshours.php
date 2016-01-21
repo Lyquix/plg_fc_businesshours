@@ -40,11 +40,11 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 		// ****************
 		// Number of values
 		// ****************
-		$multiple   = 1;//always enable multiple $use_ingroup || (int) $field->parameters->get( 'allow_multiple', 0 ) ;
+		$multiple   = 1; 	// TODO $use_ingroup || (int) $field->parameters->get( 'allow_multiple', 0 ) ;
 		$max_values = $use_ingroup ? 0 : (int) $field->parameters->get( 'max_values', 0 ) ;
-		$required   = $field->parameters->get( 'required', 0 ) ;
-		$required   = 0;//never required $required ? ' required' : '';
-		$add_position = 0; //always add on the bottom  //(int) $field->parameters->get( 'add_position', 3 ) ;
+		$required   = 0; 	// TODO $field->parameters->get( 'required', 0 ) ;
+		$required   = $required ? ' required' : '';
+		$add_position = 0;	// TODO (int) $field->parameters->get( 'add_position', 3 ) ;
 
 		//get additional option parameters
 		$hide_minutes = (int) $field->parameters->get( 'hide_minutes', 0 ) ;
@@ -106,31 +106,18 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 		//and disabling row when deleting last row remaining
 		$dataEmpty = false;
 		
+		$values = array();
 		// first try to unserialize the data
-		if ( count($field->value) ) {
-			$values = unserialize($field->value[0]);
-		}
-		if ( is_array($values) ) {
-			// check if data structure is what we expect
-			if ( array_key_exists('data', $values) && array_key_exists('text', $values) ) {
-				if ( !is_array($values['data']) ) $dataEmpty = true;
+		if(count($field->value)) {
+			foreach($field->value as $value) {
+				$value = unserialize($value);
+				if(is_array($value)) $values[] = $value;
 			}
-			else $dataEmpty = true;
 		}
-		else $dataEmpty = true;
 		
-		// if data is empty, add a default value
-		if($dataEmpty) {
-			$values = array(
-				'data' => array(array(	
-						'day_radio_options' => 2, 
-						'day_range_start' => $selected_start, 
-						'day_range_end' => $selected_end, 
-						'hour_open' => array('0800'), 
-						'hour_close' => array('1700'), 
-				)),
-				'text' => ''
-			);
+		if(!count($values)) {
+			$values[] = array();
+			$dataEmpty = true;
 		}
 
 		//init day options, weekday starts monday
@@ -244,13 +231,8 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 						jQuery(this).attr('checked', false);
 					}
 				});
-				//enable the freetextfield
-				elem.parent().find('#" . $elementid . "_0_text').attr('disabled', false);
-				
 				//show the parent div
 				elem.slideDown(400, function(){});
-				elem.parent().find('.freetextfield-container').slideDown(400, function(){});
-				
 
 				//reset the day option to range of days, 2 dropdowns mo-fr
 				elem.find('div.day-container').first().html('".$day_range_dropdown."');
@@ -265,12 +247,9 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 				elem.find('a').attr('class', 'disabled');
 				elem.find(':input').attr('disabled', true);
 				elem.find(':radio').attr('class', 'disabled');
-				elem.parent().find('#" . $elementid . "_0_text').val('');
-				elem.parent().find('#" . $elementid . "_0_text').attr('disabled', true);
 
 				//hide the parent div
 				elem.slideUp(400, function(){});
-				elem.parent().find('.freetextfield-container').slideUp(400, function(){});
 				return true;
 		    }
 
@@ -429,11 +408,9 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 		if ($max_values) FLEXI_J16GE ? JText::script("FLEXI_FIELD_MAX_ALLOWED_VALUES_REACHED", true) : fcjsJText::script("FLEXI_FIELD_MAX_ALLOWED_VALUES_REACHED", true);
 
 		// javascript for row and values
-		//for the code (count($field->value)-1), this is because freetextfield is added to the array of day/hours, so in reality there will be an extra field on top 
-		//of any count of day/hours, for empty items, or single day/hour entry, if you (count($field->value) it will be 2, ideally it should be 1.
 		$js .= "
-			var uniqueRowNum".$field->id."	= ".(count($values['data'])).";  // Unique row number incremented only
-			var rowCount".$field->id."	= ".count($values['data']).";      // Counts existing rows to be able to limit a max number of values
+			var uniqueRowNum".$field->id."	= ".count($values).";  // Unique row number incremented only
+			var rowCount".$field->id."	= ".count($values).";      // Counts existing rows to be able to limit a max number of values
 			var maxValues".$field->id." = ".$max_values.";
 			";
 
@@ -713,7 +690,7 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 		$n = 0;
 
 		//if ($use_ingroup) {print_r($field->value);}
-		foreach ($values['data'] as $value)
+		foreach ($values as $value)
 		{
 			$fieldname_n = $fieldname.'['.$n.']';
 			$elementid_n = $elementid.'_'.$n;
@@ -818,25 +795,6 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 			if (!$add_position) $field->html .= '<span class="fcfield-addvalue fcfont-icon" onclick="addField'.$field->id.'(this);" title="'.JText::_( 'FLEXI_ADD_TO_BOTTOM' ).'"></span>';
 		} else {  // handle single values
 			$field->html = '<div class="fcfieldval_container valuebox fcfieldval_container_'.$field->id.'">' . $field->html[0] .'</div>';
-		}		
-		
-		//render free text field
-		if($show_freetext) {
-			//construct Free text field 
-			$field->html .= 
-				'<div class="fcclear"></div><br />
-				<div class="nowrap_box freetextfield-container">'
-				.'<span class="flexi label sub_label">'.JText::_('PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_ADDITIONAL_INFO').'</span><br />'
-
-				.'<textarea class="fcfield_textval txtarea" id="' . $elementid . '_0_text" name="' . $fieldname . '[0][text]" cols="120" rows="5">'
-						.htmlspecialchars( $values['text'], ENT_COMPAT, 'UTF-8' )
-				.'</textarea>
-				</div>';
-		}
-		else {
-			
-			$field->html .='<input type="hidden" id="' . $elementid . '_0_text" name="' . $fieldname . '[0][text]" value="' . htmlspecialchars( $values['text'], ENT_COMPAT, 'UTF-8' ) . '" />';
-						
 		}
 	}
 	
@@ -845,6 +803,14 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 	{
 		if ( !in_array($field->field_type, self::$field_types) ) return;
 		
+		$values = array();
+		if(count($field->value)) {
+			foreach($field->value as $value) {
+				$value = unserialize($value);
+				if(is_array($value)) $values[] = $value;
+			}
+		} else return;
+		
 		$field->label = JText::_($field->label);
 		
 		// Some variables
@@ -852,19 +818,11 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 		$use_ingroup = $field->parameters->get('use_ingroup', 0);
 		$multiple    = $use_ingroup || (int) $field->parameters->get( 'allow_multiple', 0 ) ;
 		$view 		 = JRequest::getVar('flexi_callview', JRequest::getVar('view', FLEXI_ITEMVIEW));
-
-		// Get field values
-		$values = $values ? $values : $field->value[0];
-		if(empty($values)) return;
-		$values = unserialize($values);
-		if(!is_array($values)) return;
-		if(!array_key_exists('data', $values) && !array_key_exists('text', $values)) return;
 		
 		// Optional display
 		$hide_minutes = (int) $field->parameters->get( 'hide_minutes', 3 ) ;
 		$hours_format = (int) $field->parameters->get( 'hours_format', 3 ) ;
 		$short_day 	= $field->parameters->get( 'short_day', 0 ) ;
-		$show_freetext = $field->parameters->get( 'show_freetext', 1 ) ;
 		$remove_leading_zero = $field->parameters->get('remove_leading_zero', 0);
 		$days_hours_separator = $field->parameters->get('days_hours_separator', ': ');
 		$days_list_separator = $field->parameters->get('days_list_separator', ', ');
@@ -915,8 +873,6 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 			$separatorf = '&nbsp;';
 			break;
 		}
-		//freetext field?
-		
 		// initialise property
 		$field->{$prop} = array();
 
@@ -943,7 +899,7 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 			$dayText['su'] = JText::_('PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_SUNDAY');
 		}
 
-		foreach($values['data'] as $i => $value) {
+		foreach($values as $i => $value) {
 			
 			// prepare days string
 			switch($value['day_radio_options']) {
@@ -1003,13 +959,12 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 			}
 			$hours = implode($hours_list_separator, $hours);
 			
-			$values['data'][$i] = $pretext . '<span class="days">' . $days . '</span>' . $days_hours_separator . '<span class="hours">' . $hours . '</span>' . $posttext;
+			$values[$i] = $pretext . '<span class="days">' . $days . '</span>' . $days_hours_separator . '<span class="hours">' . $hours . '</span>' . $posttext;
 			
 		}
 
 		// prepare html output
-		$html = '<div class="fcbusinesshours-days-hours">' . $opentag . implode($separatorf, $values['data']) . $closetag . '</div>';
-		if($show_freetext) $html .= '<div class="fcbusinesshours-text">' . $values['text'] . '</div>';
+		$html = $opentag . implode($separatorf, $values) . $closetag;
 
 		$field->{$prop}[] = $html;
 
@@ -1040,10 +995,7 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 		$post = !is_array($post) ? array($post) : $post;
 
 		//create temp array
-		$newpost = array(
-			'data' => array(),
-			'text' => $post[0]['text']	// the freetext is always in the first row
-		);
+		$newpost = array();
 
 		//convert the data format from arrays to delimited string
 		$n = 0;
@@ -1081,9 +1033,9 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 
 					//construct new array with the delimited strings
 					if(!empty($days) && !empty($hours)) {
-						$newpost['data'][$n]['day_radio_options'] = $value['day_radio_options'];
-						$newpost['data'][$n]['days'] = $days;
-						$newpost['data'][$n]['hours'] = $hours;
+						$newpost[$n]['day_radio_options'] = $value['day_radio_options'];
+						$newpost[$n]['days'] = $days;
+						$newpost[$n]['hours'] = $hours;
 						$n++;
 					}
 				}
@@ -1091,12 +1043,11 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 		}
 
 		//if the data, return empty;
-		if (count($newpost['data']) == 0){
+		if (!count($newpost)){
 			$post='';
 		}
 		else{
-			//add the freetextfield in the end.
-			$post = serialize($newpost);
+			$post = $newpost;
 		}
 	}
 	
@@ -1113,47 +1064,11 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 	// *********************************
 	
 	// Method to display a search filter for the advanced search view
-	function onAdvSearchDisplayFilter(&$filter, $value='', $formName='searchForm')
-	{
-		if ( !in_array($filter->field_type, self::$field_types) ) return;
-		
-		plgFlexicontent_fieldsText::onDisplayFilter($filter, $value, $formName);
+	function onAdvSearchDisplayFilter(&$filter, $value='', $formName='searchForm') {
 	}
 	
 	// Method to display a category filter for the category view
-	function onDisplayFilter(&$filter, $value='', $formName='adminForm')
-	{
-		if ( !in_array($filter->field_type, self::$field_types) ) return;
-
-		// ** some parameter shortcuts
-		$label_filter 		= $filter->parameters->get( 'display_label_filter', 0 ) ;
-		if ($label_filter == 2) $text_select = $filter->label; else $text_select = JText::_('FLEXI_ALL');
-		$filter->html = '';
-		
-		if ( !$filter->parameters->get( 'range', 0 ) ) {
-			
-			// *** Retrieve values
-			// *** Limit values, show only allowed values according to category configuration parameter 'limit_filter_values'
-			$force = JRequest::getVar('view')=='search' ? 'all' : 'default';
-			$results = flexicontent_cats::getFilterValues($filter, $force);
-			
-			
-			// *** Create the select form field used for filtering
-			$options = array();
-			$options[] = JHTML::_('select.option', '', '-'.$text_select.'-');
-			
-			foreach($results as $result) {
-				if ( !strlen($result->value) ) continue;
-				$options[] = JHTML::_('select.option', $result->value, JText::_($result->text));
-			}
-			if ($label_filter == 1) $filter->html  .= $filter->label.': ';
-			$filter->html	.= JHTML::_('select.genericlist', $options, 'filter_'.$filter->id, ' class="fc_field_filter" onchange="document.getElementById(\''.$formName.'\').submit();"', 'value', 'text', $value);
-		} else {
-			//print_r($value);
-			$size = (int)($filter->parameters->get( 'size', 30 ) / 2);
-			$filter->html	.='<input name="filter_'.$filter->id.'[1]" class="fc_field_filter" type="text" size="'.$size.'" value="'.@ $value[1].'" /> - ';
-			$filter->html	.='<input name="filter_'.$filter->id.'[2]" class="fc_field_filter" type="text" size="'.$size.'" value="'.@ $value[2].'" />'."\n";
-		}
+	function onDisplayFilter(&$filter, $value='', $formName='adminForm') {
 	}
 	
 	// *************************
@@ -1161,38 +1076,11 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 	// *************************
 	
 	// Method to create (insert) advanced search index DB records for the field values
-	function onIndexAdvSearch(&$field, &$post, &$item)
-	{
-		if ( !in_array($field->field_type, self::$field_types) ) return;
-		if ( !$field->isadvsearch && !$field->isadvfilter ) return;
-		
-		// a. Each of the values of $values array will be added to the advanced search index as searchable text (column value)
-		// b. Each of the indexes of $values will be added to the column 'value_id',
-		//    and it is meant for fields that we want to be filterable via a drop-down select
-		// c. If $values is null then only the column 'value' will be added to the search index after retrieving 
-		//    the column value from table 'flexicontent_fields_item_relations' for current field / item pair will be used
-		// 'required_properties' is meant for multi-property fields, do not add to search index if any of these is empty
-		// 'search_properties'   contains property fields that should be added as text
-		// 'properties_spacer'  is the spacer for the 'search_properties' text
-		// 'filter_func' is the filtering function to apply to the final text
-		FlexicontentFields::onIndexAdvSearch($field, $post, $item, $required_properties=array(), $search_properties=array(), $properties_spacer=' ', $filter_func=null);
-		return true;
+	function onIndexAdvSearch(&$field, &$post, &$item) {
 	}
 	
 	// Method to create basic search index (added as the property field->search)
-	function onIndexSearch(&$field, &$post, &$item)
-	{
-		if ( !in_array($field->field_type, self::$field_types) ) return;
-		if ( !$field->issearch ) return;
-		
-		// a. Each of the values of $values array will be added to the basic search index (one record per item)
-		// b. If $values is null then the column value from table 'flexicontent_fields_item_relations' for current field / item pair will be used
-		// 'required_properties' is meant for multi-property fields, do not add to search index if any of these is empty
-		// 'search_properties'   contains property fields that should be added as text
-		// 'properties_spacer'  is the spacer for the 'search_properties' text
-		// 'filter_func' is the filtering function to apply to the final text
-		FlexicontentFields::onIndexSearch($field, $post, $item, $required_properties=array(), $search_properties=array(), $properties_spacer=' ', $filter_func=null);
-		return true;
+	function onIndexSearch(&$field, &$post, &$item)	{
 	}
 	
 }
