@@ -116,7 +116,7 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 		}
 		
 		if(!count($values)) {
-			$values[] = array();
+			$values[] = array('day_radio_options' => '', 'days' => '', 'hours' => '');
 			$dataEmpty = true;
 		}
 
@@ -749,11 +749,15 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 			$hourEntries = '';
 			$value['hours'] = explode(',', $value['hours']);
 			for ($i = 0; $i < count($value['hours']); $i++) {
-				$value['hours'][$i] = explode('-', $value['hours'][$i]);
-				$hour_open = JHTML::_('select.genericlist', $hour_options, $fieldname_n.'[hour_open]['.$hourEntryCounter.']', ' class="hour_open" data-uniqueRowNum="'.$n.'"', 'value', 'text', $value['hours'][$i][0], $elementid_n.'_hour_open_'.$hourEntryCounter);
-				$hour_close = JHTML::_('select.genericlist', $hour_options, $fieldname_n.'[hour_close]['.$hourEntryCounter.']', ' class="hour_close" data-uniqueRowNum="'.$n.'"', 'value', 'text', $value['hours'][$i][1], $elementid_n.'_hour_close_'.$hourEntryCounter);
+				if($value['hours'][$i]) {
+					$value['hours'][$i] = explode('-', $value['hours'][$i]);
+				} else {
+					$value['hours'][$i] = array('0800', '1700');
+				}
+				$hour_open = JHTML::_('select.genericlist', $hour_options, $fieldname_n.'[hour_open]['.$i.']', ' class="hour_open" data-uniqueRowNum="'.$n.'"', 'value', 'text', $value['hours'][$i][0], $elementid_n.'_hour_open_'.$i);
+				$hour_close = JHTML::_('select.genericlist', $hour_options, $fieldname_n.'[hour_close]['.$i.']', ' class="hour_close" data-uniqueRowNum="'.$n.'"', 'value', 'text', $value['hours'][$i][1], $elementid_n.'_hour_close_'.$i);
 				$hourEntries .= 
-					'<div class="hour-range-container" style="float:left" data-hourRowNum="'.$hourEntryCounter.'">'
+					'<div class="hour-range-container" style="float:left" data-hourRowNum="'.$i.'">'
 						.$hour_open
 						.$hour_close
 						.'<span class="fcfield-delvalue fcfont-icon" title="'.JText::_( 'FLEXI_REMOVE_VALUE' ).'" onclick="deleteHourRow'.$field->id.'(jQuery(this));"></span>'
