@@ -962,17 +962,13 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 			
 		}
 
-		// prepare html output
-		$html = $opentag . implode($separatorf, $values) . $closetag;
-
-		$field->{$prop}[] = $html;
+		$field->{$prop}[] = $values;
 
 		if (!$is_ingroup)// do not convert the array to string if field is in a group
 		{
 			// Apply separator and open/close tags
 			if(count($field->{$prop})) {
-				$field->{$prop}  = implode('', $field->{$prop});
-				$field->{$prop}  = $field_prefix . $field->{$prop} . $field_suffix;
+				$field->{$prop}  = $opentag . implode($separatorf, $values) . $closetag;
 			} else {
 				$field->{$prop} = '';
 			}
