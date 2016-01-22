@@ -830,6 +830,7 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 		$hours_list_separator = $field->parameters->get('hours_list_separator', ', ');
 		$hours_range_separator = $field->parameters->get('hours_range_separator', ' - ');
 		$hours_minutes_separator = $field->parameters->get('hours_minutes_separator', ':');
+		$hours_suffix = $field->parameters->get('hours_suffix', 'hr');
 		$ampm_separator = $field->parameters->get('ampm_separator', '');
 
 		// Prefix - Suffix - Separator parameters, replacing other field values if found
@@ -948,10 +949,8 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 					
 					$open_close[$iii] = (!$remove_leading_zero && $h < 10 ? '0' : '')
 						. $h 
-						. $hours_minutes_separator
-						. ($hide_minutes && $m == 0 ? '' : $m)
-						. $ampm_separator
-						. $ampm;
+						. ($hide_minutes && $m == 0 ? '' : $hours_minutes_separator . $m)
+						. ($hours_format == 12 ? $ampm_separator . $ampm : $hours_suffix);
 					
 				}
 				

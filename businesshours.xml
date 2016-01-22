@@ -94,6 +94,7 @@
 			<field name="hours_list_separator" type="text" default=", " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_LIST_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_LIST_SEPARATOR_DESC" filter="raw" />
 			<field name="hours_range_separator" type="text" default=" - " label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_RANGE_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_RANGE_SEPARATOR_DESC" filter="raw" />
 			<field name="hours_minutes_separator" type="text" default=":" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_MINUTES_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_MINUTES_SEPARATOR_DESC" filter="raw" />
+			<field name="hours_suffix" type="text" default="hr" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_SUFFIX" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_HOURS_SUFFIX_DESC" filter="raw" />
 			<field name="ampm_separator" type="text" default="" label="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_AMPM_SEPARATOR" description="PLG_FLEXICONTENT_FIELDS_BUSINESSHOURS_AMPM_SEPARATOR_DESC" filter="raw" />
 
 
