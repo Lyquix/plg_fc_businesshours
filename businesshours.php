@@ -317,7 +317,7 @@ class plgFlexicontent_fieldsBusinesshours extends JPlugin
 		// Check radio group changes, and make HTML to render the correct day field changes, either dropdown, checkboxes or two dropdowns
 		// using .on because we need to check for dynamically created radio group as well
 		$js.= "
-			jQuery(document).on('change','.day_radio', function(e) {
+			jQuery(document).on('change','#sortables_".$field->id." .day_radio', function(e) {				
 				//get parent's day container
 				var dayContainer = jQuery(this).closest('.fcfieldval_container').children('.business-hours-item').children('.day-container');
 				var currentRowNum = dayContainer.attr('data-uniqueRowNum');
