@@ -1,4 +1,4 @@
-#Business Hours FLEXIcontent field
+# Business Hours FLEXIcontent field
 
 Easily add business hours to items. You can define single days, multiple days, or day range, as well as one or multiple open and close times.
 
@@ -6,7 +6,7 @@ Easily add business hours to items. You can define single days, multiple days, o
 ![](http://i.imgur.com/cKyaC9G.png)
 ![](http://i.imgur.com/OZSehP3.png)
 
-###Configure backend editing options###
+### Configure backend editing options
 
 * Use field in group
 * Maximum values
@@ -15,7 +15,7 @@ Easily add business hours to items. You can define single days, multiple days, o
 
 ![](http://i.imgur.com/1ImpW39.png)
 
-###Customize display settings###
+### Customize display settings
 
 * Hour format (12-hour, 24-hour)
 * Hide minutes
